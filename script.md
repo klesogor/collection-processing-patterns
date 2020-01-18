@@ -39,4 +39,16 @@ Let's take a look at possible reducers implementation;
 
 ## What can be better?
 
-So we have created simple yet powerful interface for collection reducing. But it's far from perfection. Even if it's more declarative then simple use of iterator, it have a major drawback: it's *eager*. This means that we will create temporary iterable for each reducing function and we will iterate collection multiple times. However, if we use iterator, we iterate collection only once and don't use any additional memory for temporary collections. But can we keep efficency of iterator and declarativity of reducers? The answer is yes, if we will make transducers *lazy*. Transducers for the rescue. 
+So we have created simple yet powerful interface for collection reducing. But it's far from perfection. Even if it's more declarative then simple use of iterator, it have a major drawback: it's *eager*. This means that we will create temporary iterable for each reducing function and we will iterate collection multiple times. However, if we use iterator, we iterate collection only once and don't use any additional memory for temporary collections. But can we keep efficency of iterator and declarativity of reducers? The answer is yes, if we will make *lazy* reducers. Transducers for rescue. 
+
+## Building transducers step by step from interfaces to implementations, protocol overview
+
+## Results
+
+If you were following very closely, by now you can imagine how powerful even simple transducers are. They are little bit unusual to use(data flow builds from bottom to top and generics need some additional typing), but overall they preserve declarativity of reducers and also are as fast as simple interation over object
+
+## Benchmarks on 1 million ints
+
+## Production ready libs
+
+## Debreifing and whatever
