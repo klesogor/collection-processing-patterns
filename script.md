@@ -33,4 +33,10 @@ Also, we can see some supesets of reduce:
 - *Mapping* - applying natural transformation(morphism a -> b) to element and concating result to collection we can create new collection without mutating original iterable;
 - *Filtering* - applyingg predicate(morphhism a -> Boolean) to element and concating original element to collection iff predicate returns true;
 
-Let's take a look at possible reducers implementation
+Let's take a look at possible reducers implementation;
+
+## Reducer examples, code, some theoryd
+
+## What can be better?
+
+So we have created simple yet powerful interface for collection reducing. But it's far from perfection. Even if it's more declarative then simple use of iterator, it have a major drawback: it's *eager*. This means that we will create temporary iterable for each reducing function and we will iterate collection multiple times. However, if we use iterator, we iterate collection only once and don't use any additional memory for temporary collections. But can we keep efficency of iterator and declarativity of reducers? The answer is yes, if we will make transducers *lazy*. Transducers for the rescue. 
