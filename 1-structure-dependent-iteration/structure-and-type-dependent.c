@@ -2,13 +2,30 @@
 
 int sum(int *array, size_t size);
 double sumDouble(double *array, size_t size);
+double sumGeneric(SENSOR_METRIC_TYPES type,void *array, size_t size);
+
+typedef enum {
+    DOULBE,
+    INT
+} SENSOR_METRIC_TYPES;
 
 int main()
 {
     int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     double arrD[] = {1., 2., 3., 4., 5., 6., 7., 8., 9., 10.};
-    printf("%d\n", sum(arr, 10));
-    printf("%f\n", sumDouble(arrD, 10));
+    printf("%d\n", sumGeneric(INT, arr, 10));
+    printf("%d\n", sumGeneric(DOULBE, arrD, 10));
+}
+
+double sumGeneric(SENSOR_METRIC_TYPES type,void *array, size_t size){
+    switch(type){
+        case DOULBE:
+            return sumDouble((double*) array, size);
+        case INT: 
+            return (double)sum((int*) array, size);
+        default:
+            return -1;
+    }
 }
 
 int sum(int *array, size_t size)
