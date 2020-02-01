@@ -155,22 +155,23 @@ final class Stream<T> implements Iterable<T> {
 
 class Driver {
     public static void main(final String[] args) {
-        // Arrange
         Integer[] source = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        // Act and Assert
-        Stream
+
+        Integer sum = Stream
             .of(Arrays.asList(source))
             .take(9l)
             .map(x -> x * x)
             .filter(x -> x > 20)
             .reduce((a, b) -> a + b, 0);
-        Stream
+
+        ArrayList<Integer> list = Stream
             .of(Arrays.asList(source))
             .take(9l)
             .map(x -> x * x)
             .filter(x -> x > 20)
             .toArrayList();
-        System.out.println();
-        System.out.println();
+
+        System.out.println(sum);
+        System.out.println(list);
     }
 }
