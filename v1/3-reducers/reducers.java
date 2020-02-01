@@ -5,16 +5,16 @@ interface Reducer<Tacc, Tin> {
     public Tacc step(Tacc accamulator, Tin element);
 }
 
-// Natural transformation(or morphism a -> b)
-interface NT<Tin, Tout> {
-    public Tout func(Tin param);
+//morphism a -> b
+interface Fun<Tin, Tout> {
+    public Tout apply(Tin param);
 }
 
 // Predicate(or morphhism a -> Boolean)
-interface Predicate<Tin> extends NT<Tin, Boolean> {
+interface Predicate<Tin> extends Fun<Tin, Boolean> {
 }
 
-class MagicReducers {
+class Reducers {
     public static <Tin, Tout> Tout reduce(Reducer<Tout, Tin> reducer, Tout init, Iterable<Tin> iterable) {
         Tout acc = init;
         for (Tin elem : iterable) {
@@ -24,10 +24,10 @@ class MagicReducers {
         return acc;
     }
 
-    public static <Tin, Tout> Iterable<Tout> map(NT<Tin, Tout> nt, Iterable<Tin> iterable) {
+    public static <Tin, Tout> Iterable<Tout> map(Fun<Tin, Tout> nt, Iterable<Tin> iterable) {
         return reduce(
             (list, element) -> {
-                list.add(nt.func(element));
+                list.add(nt.apply(element));
                 return list;
             }, 
             new ArrayList<Tout>(), 
@@ -38,7 +38,7 @@ class MagicReducers {
     public static <Tin> Iterable<Tin> filter(Predicate<Tin> predicate, Iterable<Tin> iterable){
         return reduce(
             (list, element) -> {
-                if(predicate.func(element)){
+                if(predicate.apply(element)){
                     list.add(element);
                 }
                 return list;
@@ -49,33 +49,33 @@ class MagicReducers {
     }
 }
 
-class MagicIterable<T>{
+class Reducable<T>{
     private Iterable<T> _iterable;
     
-    public MagicIterable(Iterable<T> iterable) {
+    public Reducable(Iterable<T> iterable) {
         _iterable = iterable; 
     }
 
 
-    public static<Tin> MagicIterable<Tin> of(Tin... values){
+    public static<Tin> Reducable<Tin> of(Tin... values){
         ArrayList<Tin> iterable = new ArrayList<>();
         for(Tin value : values){
             iterable.add(value);
         }
 
-        return new MagicIterable<Tin>(iterable);
+        return new Reducable<Tin>(iterable);
     }
 
     public <Tout>Tout reduce(Reducer<Tout, T> reducer, Tout init){ 
-        return MagicReducers.reduce(reducer, init, _iterable);
+        return Reducers.reduce(reducer, init, _iterable);
     }
 
-    public <Tout>MagicIterable<Tout>map(NT<T, Tout> nt){
-        return new MagicIterable<Tout>(MagicReducers.map(nt, _iterable));
+    public <Tout>Reducable<Tout>map(Fun<T, Tout> nt){
+        return new Reducable<Tout>(Reducers.map(nt, _iterable));
     }
 
-    public MagicIterable<T> filter(Predicate<T> predicate){
-        return new MagicIterable<T>(MagicReducers.filter(predicate, _iterable));
+    public Reducable<T> filter(Predicate<T> predicate){
+        return new Reducable<T>(Reducers.filter(predicate, _iterable));
     }
 
     public Iterable<T> unwrap(){
@@ -85,7 +85,7 @@ class MagicIterable<T>{
 
 class Driver{
     public static void main(String[] args) {
-        MagicIterable<Integer> iterable = MagicIterable.of(1,2,3,4,5,6,7,8,9,10);
+        Reducable<Integer> iterable = Reducable.of(1,2,3,4,5,6,7,8,9,10);
         Integer sumOfEvenSquares = iterable
             .filter(item -> item % 2 == 0)
             .map(item -> item * item)

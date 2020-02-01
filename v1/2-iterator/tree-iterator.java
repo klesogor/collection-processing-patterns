@@ -11,19 +11,19 @@ class Driver {
         System.out.println(sum(list));
     }
 
-    private static Integer sum(Iterable<Integer> iterable) {
-        Integer sum = 0;
-        for (Integer elem : iterable) {
-            sum += elem;
+    private static <T extends Number>Double sum(Iterable<T> iterable) {
+        Double sum = 0;
+        for (T elem : iterable) {
+            sum += elem.doubleValue();
         }
 
         return sum;
     }
 
-    private static Integer sumIterator(Iterator<Integer> iterator) {
-        Integer sum = 0;
+    private static<T extends Number> Double sumIterator(Iterator<T> iterator) {
+        Double sum = 0;
         while (iterator.hasNext()) {
-            sum += iterator.next();
+            sum += iterator.next().doubleValue();
         }
 
         return sum;
